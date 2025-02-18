@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caela's HTTP Error Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; padding: 20px; }
+        h1 { color: #333; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .container { max-width: 600px; margin: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Caela's HTTP Error Generator</h1>
+        <p>Welcome to the Caela's HTTP Error Generator API!</p>
+        
+        <h2>Usage</h2>
+        <p><strong>Generate an error:</strong> Send a GET, POST, PUT, DELETE, or PATCH request to <code>/error</code> with a <code>code</code> parameter.</p>
+
+        <h3>Example Requests:</h3>
+        <p><strong>GET Request:</strong></p>
+        <pre>curl "https://errors.caela.me/error?code=404"</pre>
+
+        <p><strong>POST Request:</strong></p>
+        <pre>curl -X POST https://errors.caela.me/error -H "Content-Type: application/json" -d '{"code": 500}'</pre>
+
+        <p>Enjoy testing!</p>
+    </div>
+</body>
+</html>
+
