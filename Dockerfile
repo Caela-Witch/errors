@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-
+RUN touch app.log && chmod 777 app.log
 RUN addgroup --system appgroup && adduser --system --group appuser
 USER appuser
 

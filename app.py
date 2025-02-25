@@ -3,9 +3,20 @@ from collections import defaultdict
 from flask import Flask, request, jsonify, render_template, redirect
 from flask_cors import CORS
 import http.client
+import logging
+from logging.handlers import RotatingFileHandler
+from time import strftime
+import traceback
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+logger = logging.getLogger(__name__)
+
+handler = RotatingFileHandler('app.log', maxBytes=100000, backupCount=3)
+logger.setLevel(logging.ERROR)
+logger.addHandler(handler)
+
 
 def format_iso_interval(td):
     seconds = int(td.total_seconds())
@@ -93,4 +104,18 @@ def status():
 def about():
     server_stats["endpoints"]["about"] += 1
     return render_template('about.html')
+
+
+@app.after_request
+def after_request(response):
+    timestamp = strftime('[%Y-%b-%d %H:%M]')
+    logger.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
+    return response
+
+@app.errorhandler(Exception)
+def exceptions(e):
+    tb = traceback.format_exc()
+    timestamp = strftime('[%Y-%b-%d %H:%M]')
+    logger.error('%s %s %s %s %s 5xx INTERNAL SERVER ERROR\n%s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, tb)
+    return e.status_code
 
